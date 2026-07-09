@@ -5,5 +5,8 @@ public class Main {
         Singleton instance2 = LazySingleton.getInstance();  
         Singleton instance3 = LazySyncSingleton.getInstance();  
         Singleton instance4 = DoubleCheckedSingleton.getInstance(); 
+        Singleton instance5 = MeyerSingleton.getInstance(); 
+        MeyerSingleton.getInstance().print(); 
+
     }
 }
