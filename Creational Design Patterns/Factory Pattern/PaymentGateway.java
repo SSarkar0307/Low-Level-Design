@@ -34,15 +34,17 @@ class PaymentFactory{
 
 // Isn't responsible for Payment Method Handling, Orchestrates the Payment Processing - SRP
 class PaymentService{
-    // void validatePayment();
-    // void checkStock();
 
     public static void processPayment(String method){  // could be non-static if class needs to store any Object State(Data)
 
+        // void validatePayment();
+        // void checkStock();
+
         // PaymentGateway PaymentMethod = PaymentFactory.getPayment(method);
         // PaymentMethod.pay();
-
         PaymentFactory.getPayment(method).pay();
+
+        // void updateDatabase();
+        // void sendNotification();
     }
-    // void sendNotification();
 }
