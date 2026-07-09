@@ -32,14 +32,17 @@ class PaymentFactory{
     }
 }
 
-// Isn't responsible for Payment Method Handling, Orchestration the Payment Processing - SRP
+// Isn't responsible for Payment Method Handling, Orchestrates the Payment Processing - SRP
 class PaymentService{
     // void validatePayment();
     // void checkStock();
 
     public static void processPayment(String method){  // could be non-static if class needs to store any Object State(Data)
-        PaymentGateway PaymentMethod = PaymentFactory.getPayment(method);
-        PaymentMethod.pay();
+
+        // PaymentGateway PaymentMethod = PaymentFactory.getPayment(method);
+        // PaymentMethod.pay();
+
+        PaymentFactory.getPayment(method).pay();
     }
     // void sendNotification();
 }
