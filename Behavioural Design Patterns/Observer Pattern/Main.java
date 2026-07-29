@@ -6,7 +6,7 @@ import Channels.*;
 public class Main{
     public static void main(String[] args) {
         Subscriber user001 = new MobileSubscriber("Sohan");
-        Subscriber user002 = new EmailSubscriber("Sarkar");
+        Subscriber user002 = new EmailSubscriber("Sohan@gmail.com");
 
         YoutubeChannel mrbeast = new YoutubeChannel("Mr. Beast");
         mrbeast.subscribe(user001);
