@@ -54,6 +54,7 @@ public class Main{
             smsThread.join();
             emailThread.join();
             etaThread.join();
+            System.out.println("All Tasks Done.");
         }
         catch(InterruptedException e){
             e.printStackTrace();
