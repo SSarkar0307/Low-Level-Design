@@ -1,49 +1,81 @@
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
-class CounterLogic{
+class CounterWithoutThreadSafety{
     private int count=0;
 
-    synchronized void increament(){
+    public void increament(){
         count++;
     }
-    synchronized int getCount(){
+    public int getCount(){
         return count;
     }
 }
 
-class Task implements Runnable{
-    CounterLogic obj;
-    int id;
-    public Task(CounterLogic obj, int id){
-        this.obj = obj;
-        this.id = id;
+class CounterWithSynchronizedMethod{
+    private int count=0;
+
+    public synchronized void increament(){
+        count++;
     }
-
-    public void run(){
-        for(int i=0; i<1000; i++){
-            try{
-
-                obj.increament();
-                // Thread.sleep(80);
-                // System.out.println(obj.getCount() + " by Thread : " + this.id);
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-        }
+    public synchronized int getCount(){
+        return count;
     }
 }
 
+class CounterWithSynchronizedBlock{
+    private int count=0;
+
+    public void increament(){
+        // Other code ...
+        synchronized(this){ // Synchronized Block
+            count++;
+        }
+        // Other code ...
+    }
+    public synchronized int getCount(){
+        return count;
+    }
+}
+
+// Still Thread-Safety not achieved, only improves data consistency
+class CounterWithVolatileData{
+    private volatile int count=0;
+
+    public void increament(){
+        count++;
+    }
+    public int getCount(){
+        return count;
+    }
+}
+
+class CounterWithAtomicData{
+    AtomicInteger count = new AtomicInteger(0);
+    
+    public void increament(){
+        int curr, next;
+        do{
+            curr = count.get();
+            next = curr+1;
+        }
+        while(!count.compareAndSet(curr, next));
+    }
+    public int getCount(){
+        return count.get();
+    }
+}
 
 public class RaceCondition {
     public static void main(String[] args) {
         
-        CounterLogic counter= new CounterLogic();
+        CounterWithVolatileData counter= new CounterWithVolatileData();
         
-        // Runnable task = () ->{
-        //     counter.increament();
-        //     System.out.println(counter.getCount() + " by Thread : ");    
-        // };
+        Runnable task = () ->{
+            for(int i=0; i<1000; i++){
+                counter.increament();    
+            }
+        };
 
         // Task task= new Task(counter);
         // Thread taskThread = new Thread(task);
@@ -63,7 +95,7 @@ public class RaceCondition {
         List<Thread> taskThreads = new ArrayList<>();
 
         for(int i=0; i<10; i++){
-            taskThreads.add(new Thread(new Task(counter, i)));
+            taskThreads.add(new Thread(task));
         }
 
         for(int i=0; i<10; i++){
