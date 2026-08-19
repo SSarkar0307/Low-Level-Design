@@ -1,5 +1,5 @@
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.*;
 
 class CounterWithoutThreadSafety{
     private int count=0;
