@@ -32,8 +32,7 @@ class TaskWithReentrantLock{
     }
 }
 
-
-// Auto Releases Idle Threads
+// Waits for Unlock
 class TaskWithReentrantLockWithWait{
     private final ReentrantLock lock = new ReentrantLock();
 
@@ -54,7 +53,7 @@ class TaskWithReentrantLockWithWait{
     }
 }
 
-// Doesnt much make sense for Idle Thread to Poll
+// Doesnt much make sense for Idle Thread to Poll for Auto-Release
 class TaskWithReentrantLockWithExpirybyPolling {
     private final ReentrantLock lock = new ReentrantLock();
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
@@ -95,7 +94,7 @@ class TaskWithReentrantLockWithExpirybyPolling {
 
 }
 
-
+// Auto Releases Idle Threads
 class TaskWithReentrantLockWithExpirybyInterruption {
     private final ReentrantLock lock = new ReentrantLock();
     private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
